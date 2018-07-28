@@ -1,0 +1,75 @@
+package com.example.lurennetangi.helpinghands;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+    public class RegisterActivity extends Activity {
+
+            EditText first, last, email, mobile, pass, confirm;
+            Button save, cancel;
+            DatabaseHandler db;
+@Override
+       protected void onCreate(Bundle savedInstanceState) {
+               super.onCreate(savedInstanceState);
+               setContentView(R.layout.activity_main);
+
+
+               first= findViewById(R.id.editFirstName);
+               last =findViewById(R.id.editLastName);
+               email=findViewById(R.id.editEmail);
+               mobile =findViewById(R.id.editMobiLeno);
+               pass=findViewById(R.id.editPassword);
+               confirm =findViewById(R.id.editConfirmPassword);
+
+               save=(Button)findViewById(R.id.btnSave);
+               cancel=(Button)findViewById(R.id.btnCancel);
+
+
+               save.setOnClickListener(new OnClickListener() {
+
+@Override
+                     public void onClick(View arg0) {
+                             // TODO Auto-generated method stub
+
+                             String EdFirst = first.getText().toString();
+                             String EdLast = last.getText().toString();
+                             String EdEmail = email.getText().toString();
+                             String EdMobile = mobile.getText().toString();
+                             String EdPass = pass.getText().toString();
+                             String edConf = confirm.getText().toString();
+
+                             if(edConf.equals(EdPass) ){
+
+
+                             db = new DatabaseHandler(RegisterActivity.this, null, null, 2);
+                             RegisterData reg;
+                                     reg = new RegisterData();
+                                     reg.setfirstName(EdFirst);
+                             reg.setLast_name(EdLast);
+                             reg.setEmailId(EdEmail);
+                             reg.setMobNo(EdMobile);
+                             reg.setPassword(EdPass);
+                             db.addregister(reg);
+
+                             Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_LONG).show();
+                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }
+        else{
+
+        Toast.makeText(getApplicationContext(), "Password doesn't match", Toast.LENGTH_LONG).show();
+        pass.setText("");
+        confirm.setText("");
+        }
+        }
+        });
+        }
+
+
+
+        }
